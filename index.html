@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <style>
+      html {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+      }
+      #maxNumberInput {
+        width: 50px;
+        padding: 5px;
+      }
+
+      #current {
+        font-size: 100px;
+      }
+
+      /* #finished-container {
+        width: 250px;
+        height: 200px;
+      } */
+
+      #output {
+        width: 300px;
+        height: 200px;
+        /* background-color: red; */
+        /* Stops the text from overflowing output div */
+        overflow-wrap: break-word;
+        -ms-word-wrap: break-word;
+        word-wrap: break-word;
+        -ms-hyphens: auto;
+      }
+    </style>
+    <!-- <input id="minNumberInput">  -->
+
+    <div id="next-container">
+      Next:
+      <div id="current">?</div>
+    </div>
+    <div id="finished-container">
+      Finished:
+      <div id="output" noWrap>Students Order</div>
+    </div>
+
+    <input id="maxNumberInput" />
+    <br />
+    <button type="button" id="myButton">Next student</button>
+    <br />
+    <button type="button" id="clear">Clear</button>
+
+    <script>
+      // const minNumberInput = document.querySelector( '#minNumberInput' );
+      const maxNumberInput = document.querySelector('#maxNumberInput');
+      const myButton = document.querySelector('#myButton');
+      const clear = document.querySelector('#clear');
+
+      // -----------------
+
+      const initialize = function (minNumber, maxNumber) {
+        const collection = [];
+
+        const makeNumber = function () {
+          const randomNumber =
+            minNumber + Math.random() * (maxNumber - minNumber);
+          const randomInteger = Math.round(randomNumber);
+
+          console.log(randomInteger);
+          if (collection.length === maxNumber - minNumber + 1) {
+            myButton.disabled = true;
+            return;
+          }
+
+          if (collection.includes(randomInteger)) {
+            makeNumber();
+            return;
+          }
+
+          collection.push(randomInteger);
+          console.log(collection);
+          output.innerHTML = collection;
+          current.innerHTML = collection[collection.length - 1];
+        };
+
+        myButton.addEventListener('click', makeNumber);
+      };
+
+      const state = {
+        minNumber: 1,
+        maxNumber: 30,
+      };
+
+      clear.addEventListener('click', function () {
+        location.reload();
+      });
+
+      maxNumberInput.addEventListener('keyup', function () {
+        state.maxNumber = Number.parseFloat(maxNumberInput.value);
+        console.log(state);
+        setTimeout(function () {
+          initialize(state.minNumber, state.maxNumber);
+          console.log('initialized!');
+        }, 700);
+      });
+    </script>
+  </body>
+</html>
