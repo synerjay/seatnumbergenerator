@@ -14,13 +14,33 @@
         align-items: center;
         height: 100%;
       }
+
+      #container {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        grid-template-columns: 2fr 1fr;
+        width: 800px;
+        height: 500px;
+      }
+
+      #next-container {
+        padding: 10px;
+        width: 300px;
+        background: rgba(255, 255, 255, 0.95);
+        box-shadow: 0 0 0 10px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
       #maxNumberInput {
         width: 50px;
         padding: 5px;
       }
 
       #current {
-        font-size: 100px;
+        font-size: 250px;
         text-align: center;
         margin: 0;
         font-weight: 200;
@@ -55,6 +75,7 @@
 
       li {
         width: 80px;
+        font-size: 24px;
       }
 
       /* ul {
@@ -79,24 +100,25 @@
     </style>
     <!-- <input id="minNumberInput">  -->
 
-    <div id="next-container">
-      <h2>Next:</h2>
-      <div id="current">?</div>
-    </div>
+    <div id="container">
+      <div id="next-container">
+        <h2>NEXT:</h2>
+        <div id="current">?</div>
+        <button type="button" id="myButton">NEXT</button>
+        <br />
+        <input id="maxNumberInput" />
+        <br />
+        <button type="button" id="clear">Clear</button>
+      </div>
 
-    <div id="finished-container">
-      <h2>FINISHED</h2>
-      <p></p>
-      <ul id="output">
-        <li>Loading...</li>
-      </ul>
+      <div id="finished-container">
+        <h2>FINISHED:</h2>
+        <p></p>
+        <ul id="output">
+          <li>Loading...</li>
+        </ul>
+      </div>
     </div>
-
-    <input id="maxNumberInput" />
-    <br />
-    <button type="button" id="myButton">Next student</button>
-    <br />
-    <button type="button" id="clear">Clear</button>
 
     <script>
       // const minNumberInput = document.querySelector( '#minNumberInput' );
