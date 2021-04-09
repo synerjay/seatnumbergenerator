@@ -23,21 +23,47 @@
         font-size: 100px;
       }
 
-      /* #finished-container {
-        width: 250px;
-        height: 200px;
+      #finished-container {
+        padding: 20px;
+        max-width: 900px;
+        background: rgba(255, 255, 255, 0.95);
+        box-shadow: 0 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      ul {
+        display: flex;
+        flex-flow: column wrap; /* flex-direction: column */
+        height: 350px;
+      }
+
+      ul ~ ul {
+        flex-flow: row wrap; /* flex-direction: row */
+        max-height: auto; /* override max-height of the column direction */
+      }
+
+      li {
+        width: 80px;
+      }
+
+      /* ul {
+        -webkit-column-count: 2;
+        -moz-column-count: 2;
+        column-count: 2;
+        -webkit-column-gap: 2em;
+        -moz-column-gap: 2em;
+        column-gap: 2em;
       } */
 
-      #output {
+      /* #output {
         width: 300px;
         height: 200px;
         /* background-color: red; */
-        /* Stops the text from overflowing output div */
-        overflow-wrap: break-word;
+      /* Stops the text from overflowing output div */
+      /* overflow-wrap: break-word;
         -ms-word-wrap: break-word;
-        word-wrap: break-word;
-        /* -ms-hyphens: auto; */
-      }
+        word-wrap: break-word; */
+      /* -ms-hyphens: auto; 
+      } */
     </style>
     <!-- <input id="minNumberInput">  -->
 
@@ -47,7 +73,10 @@
     </div>
     <div id="finished-container">
       Finished:
-      <div id="output" noWrap>Students Order</div>
+      <!-- <div id="output" noWrap>Students Order</div> -->
+      <ul id="output">
+        <li>Loading Order...</li>
+      </ul>
     </div>
 
     <input id="maxNumberInput" />
@@ -61,6 +90,7 @@
       const maxNumberInput = document.querySelector('#maxNumberInput');
       const myButton = document.querySelector('#myButton');
       const clear = document.querySelector('#clear');
+      const orderList = document.querySelector('#output');
 
       // -----------------
 
@@ -85,7 +115,8 @@
 
           collection.push(randomInteger);
           console.log(collection);
-          output.innerHTML = collection;
+          // output.innerHTML = collection; // --- change to
+          populateList(collection, orderList);
           current.innerHTML = collection[collection.length - 1];
         };
 
@@ -100,6 +131,16 @@
       clear.addEventListener('click', function () {
         location.reload();
       });
+
+      function populateList(collection = [], orderList) {
+        orderList.innerHTML = collection
+          .map((number, i) => {
+            return `
+          <li>${number}</li>
+          `;
+          })
+          .join('');
+      }
 
       maxNumberInput.addEventListener('keyup', function () {
         state.maxNumber = Number.parseFloat(maxNumberInput.value);
