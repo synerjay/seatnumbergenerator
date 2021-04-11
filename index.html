@@ -15,21 +15,19 @@
     <style>
       body {
         padding-top: 100px;
+        font-family: 'Quicksand', sans-serif;
         display: flex;
+        flex-direction: column;
+      }
+
+      #container {
+        display: flex;
+        padding-bottom: 200px;
         justify-content: space-evenly;
         flex-direction: row;
         align-items: center;
         height: 100%;
-        font-family: 'Quicksand', sans-serif;
       }
-
-      /* #container {
-        display: flex;
-        justify-content: space-evenly;
-        align-items: center;
-        width: 100%;
-        height: 500px;
-      } */
 
       #next-container {
         padding: 10px;
@@ -40,6 +38,30 @@
         flex-direction: column;
         align-items: center;
       }
+
+      #config {
+        padding-top: 200px;
+        padding-bottom: 50px;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+      }
+
+      #config > div {
+        display: flex;
+        justify-content: center;
+        padding-top: 20px;
+        padding-bottom: 20px;
+      }
+
+      #config > div > input {
+        width: 300px;
+        margin-right: 10px;
+      }
+
+      /* #config > div > button {
+        margin: 30px;
+      } */
 
       #maxNumberInput {
         width: 50px;
@@ -113,28 +135,37 @@
     </style>
     <!-- <input id="minNumberInput">  -->
 
-    <!-- <div id="container"> -->
-    <div id="next-container">
-      <h2 id="nexttext">NEXT:</h2>
-      <div id="current">🤔</div>
-      <button type="button" id="myButton"><h2>⮕</h2></button>
-      <br />
-      <input id="maxNumberInput" />
-      <br />
-      <button type="button" id="clear">Clear</button>
+    <div id="container">
+      <div id="next-container">
+        <h2 id="nexttext">NEXT:</h2>
+        <div id="current">🤔</div>
+        <button type="button" id="myButton"><h2>⮕</h2></button>
+        <br />
+        <input id="maxNumberInput" />
+        <br />
+        <button type="button" id="clear">Clear</button>
+      </div>
+
+      <div id="finished-container">
+        <h2 id="order">ORDER:</h2>
+        <p></p>
+        <ul id="output">
+          <li>Loading...</li>
+        </ul>
+      </div>
     </div>
 
-    <div id="finished-container">
-      <h2 id="order">ORDER:</h2>
-      <p></p>
-      <ul id="output">
-        <li>Loading...</li>
-      </ul>
+    <!-- Configuration Settings Area -->
+    <div id="config">
+      <div>
+        <input id="priorityArray" />
+        <button type="button" id="addArray">Prioritize</button>
+      </div>
+      <div>
+        <input id="oldArray" />
+        <button type="button" id="continue">Continue from Last Time</button>
+      </div>
     </div>
-
-    <input id="priorityArray" />
-    <button type="button" id="addArray">Prioritize</button>
-    <!-- </div> -->
 
     <script>
       const maxNumberInput = document.querySelector('#maxNumberInput');
@@ -183,7 +214,6 @@
 
             collection.push(randomInteger);
             console.log(collection);
-            // output.innerHTML = collection; // --- change to
             populateList(collection, orderList);
             current.innerHTML = collection[collection.length - 1];
           }
