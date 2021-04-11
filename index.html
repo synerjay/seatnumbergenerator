@@ -55,7 +55,7 @@
       }
 
       #config > div > input {
-        width: 300px;
+        width: 400px;
         margin-right: 10px;
       }
 
@@ -113,6 +113,10 @@
         height: 50px;
       }
 
+      #display {
+        margin-left: 30px;
+      }
+
       /* ul {
         -webkit-column-count: 2;
         -moz-column-count: 2;
@@ -162,8 +166,16 @@
         <button type="button" id="addArray">Prioritize</button>
       </div>
       <div>
-        <input id="oldArray" />
-        <button type="button" id="continue">Continue from Last Time</button>
+        <input
+          id="alreadyArrayInput"
+          placeholder="Place a list of numbers that was called last time separated by commas"
+        />
+      </div>
+      <div>
+        <p>Numbers Already Called:</p>
+        <br />
+        <br />
+        <p id="display"></p>
       </div>
     </div>
 
@@ -174,11 +186,21 @@
       const orderList = document.querySelector('#output');
       const priorityArray = document.querySelector('#priorityArray');
       const addArray = document.querySelector('#addArray');
+      const alreadyArrayInput = document.querySelector('#alreadyArrayInput');
 
       // -----------------
 
-      const initialize = function (array, maxNumber) {
+      const initialize = function (alreadyArray, array, maxNumber) {
         let collection = [];
+
+        if (alreadyArray) {
+          collection.push(...alreadyArray);
+          populateList(collection, orderList);
+        } else {
+          collection = [];
+        }
+
+        console.log(collection);
 
         const makeNumber = function () {
           // When I press the button first it should pick a random number from the array until all numbers are called, then the rest of the numbers
@@ -189,8 +211,7 @@
               collection.push(randomValue);
               populateList(collection, orderList);
               current.innerHTML = collection[collection.length - 1];
-              console.log(collection.length);
-              console.log(array.length);
+              display.innerHTML = collection;
             } else {
               makeNumber();
               return;
@@ -216,6 +237,7 @@
             console.log(collection);
             populateList(collection, orderList);
             current.innerHTML = collection[collection.length - 1];
+            display.innerHTML = collection;
           }
         };
 
@@ -223,6 +245,7 @@
       };
 
       const state = {
+        alreadyCalled: [],
         priorityArray: [],
         maxNumber: 30,
       };
@@ -249,11 +272,21 @@
         order.innerHTML = 'ORDER (PRIORITIZED): ';
       });
 
+      alreadyArrayInput.addEventListener('input', function () {
+        // setTimeout(function () {
+        state.alreadyCalled.push(
+          ...alreadyArrayInput.value.split(',').map(parseFloat)
+        );
+        console.log(state.alreadyCalled);
+        order.innerHTML = "Let's Continue from Last Time!";
+        // }, 600);
+      });
+
       maxNumberInput.addEventListener('keyup', function () {
         state.maxNumber = Number.parseFloat(maxNumberInput.value);
         console.log(state);
         setTimeout(function () {
-          initialize(state.priorityArray, state.maxNumber);
+          initialize(state.alreadyCalled, state.priorityArray, state.maxNumber);
           console.log('initialized!');
         }, 700);
       });
