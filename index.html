@@ -125,7 +125,7 @@
     </div>
 
     <div id="finished-container">
-      <h2>FINISHED:</h2>
+      <h2 id="order">ORDER:</h2>
       <p></p>
       <ul id="output">
         <li>Loading...</li>
@@ -147,40 +147,54 @@
 
       // -----------------
 
-      const initialize = function (maxNumber) {
-        const collection = [];
-
-        // GoodStudents Array = takes in an array from an input - numbers whose
+      const initialize = function (array, maxNumber) {
+        let collection = [];
 
         const makeNumber = function () {
-          const randomNumber = 1 + Math.random() * (maxNumber - 1);
-          const randomInteger = Math.round(randomNumber);
+          // When I press the button first it should pick a random number from the array until all numbers are called, then the rest of the numbers
+          if (array && collection.length < array.length) {
+            let randomValue = array[Math.floor(Math.random() * array.length)];
 
-          console.log(randomInteger);
-          if (collection.length === maxNumber - 1 + 1) {
-            nexttext.innerHTML = 'ALL FINISHED!';
-            current.innerHTML = '😁';
-            myButton.disabled = true;
-            return;
+            if (!collection.includes(randomValue)) {
+              collection.push(randomValue);
+              populateList(collection, orderList);
+              current.innerHTML = collection[collection.length - 1];
+              console.log(collection.length);
+              console.log(array.length);
+            } else {
+              makeNumber();
+              return;
+            }
+          } else {
+            const randomNumber = 1 + Math.random() * (maxNumber - 1);
+            const randomInteger = Math.round(randomNumber);
+
+            console.log(randomInteger);
+            if (collection.length === maxNumber - 1 + 1) {
+              nexttext.innerHTML = 'ALL FINISHED!';
+              current.innerHTML = '😁';
+              myButton.disabled = true;
+              return;
+            }
+
+            if (collection.includes(randomInteger)) {
+              makeNumber();
+              return;
+            }
+
+            collection.push(randomInteger);
+            console.log(collection);
+            // output.innerHTML = collection; // --- change to
+            populateList(collection, orderList);
+            current.innerHTML = collection[collection.length - 1];
           }
-
-          if (collection.includes(randomInteger)) {
-            makeNumber();
-            return;
-          }
-
-          collection.push(randomInteger);
-          console.log(collection);
-          // output.innerHTML = collection; // --- change to
-          populateList(collection, orderList);
-          current.innerHTML = collection[collection.length - 1];
         };
 
         myButton.addEventListener('click', makeNumber);
       };
 
       const state = {
-        minNumber: 1,
+        priorityArray: [],
         maxNumber: 30,
       };
 
@@ -199,14 +213,18 @@
       }
 
       addArray.addEventListener('click', function () {
-        console.log(priorityArray.value.split(',').map(parseFloat));
+        state.priorityArray.push(
+          ...priorityArray.value.split(',').map(parseFloat)
+        );
+        console.log(state.priorityArray);
+        order.innerHTML = 'ORDER (PRIORITIZED): ';
       });
 
       maxNumberInput.addEventListener('keyup', function () {
         state.maxNumber = Number.parseFloat(maxNumberInput.value);
         console.log(state);
         setTimeout(function () {
-          initialize(state.maxNumber);
+          initialize(state.priorityArray, state.maxNumber);
           console.log('initialized!');
         }, 700);
       });
