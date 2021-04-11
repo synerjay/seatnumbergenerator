@@ -131,6 +131,9 @@
         <li>Loading...</li>
       </ul>
     </div>
+
+    <input id="priorityArray" />
+    <button type="button" id="addArray">Prioritize</button>
     <!-- </div> -->
 
     <script>
@@ -139,19 +142,22 @@
       const myButton = document.querySelector('#myButton');
       const clear = document.querySelector('#clear');
       const orderList = document.querySelector('#output');
+      const priorityArray = document.querySelector('#priorityArray');
+      const addArray = document.querySelector('#addArray');
 
       // -----------------
 
-      const initialize = function (minNumber, maxNumber) {
+      const initialize = function (maxNumber) {
         const collection = [];
 
+        // GoodStudents Array = takes in an array from an input - numbers whose
+
         const makeNumber = function () {
-          const randomNumber =
-            minNumber + Math.random() * (maxNumber - minNumber);
+          const randomNumber = 1 + Math.random() * (maxNumber - 1);
           const randomInteger = Math.round(randomNumber);
 
           console.log(randomInteger);
-          if (collection.length === maxNumber - minNumber + 1) {
+          if (collection.length === maxNumber - 1 + 1) {
             nexttext.innerHTML = 'ALL FINISHED!';
             current.innerHTML = '😁';
             myButton.disabled = true;
@@ -192,11 +198,15 @@
           .join('');
       }
 
+      addArray.addEventListener('click', function () {
+        console.log(priorityArray.value.split(',').map(parseFloat));
+      });
+
       maxNumberInput.addEventListener('keyup', function () {
         state.maxNumber = Number.parseFloat(maxNumberInput.value);
         console.log(state);
         setTimeout(function () {
-          initialize(state.minNumber, state.maxNumber);
+          initialize(state.maxNumber);
           console.log('initialized!');
         }, 700);
       });
