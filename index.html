@@ -123,6 +123,22 @@
         margin-right: 30px;
       }
 
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        background-color: rgba(0, 0, 0, 0.25);
+        height: 100%;
+        width: 100%;
+      }
+
+      .modal_content {
+        background-color: pink;
+        position: absolute;
+        height: 100%;
+        width: 100%;
+      }
+
       /* ul {
         -webkit-column-count: 2;
         -moz-column-count: 2;
@@ -143,7 +159,12 @@
       /* -ms-hyphens: auto; 
       } */
     </style>
-    <!-- <input id="minNumberInput">  -->
+    <div class="modal">
+      <div class="modal_content">
+        <span class="close">&times;</span>
+        <p>I'm A Pop Up!!!</p>
+      </div>
+    </div>
 
     <div id="container">
       <div id="next-container">
@@ -164,9 +185,9 @@
         </ul>
       </div>
     </div>
-
     <!-- Configuration Settings Area -->
     <div id="config">
+      <button type="button" class="js-btn">Open Settings</button>
       <h2>🛠️ Configuration Settings 🛠️</h2>
       <div>
         <p>List of Priority Numbers:</p>
@@ -265,6 +286,15 @@
         location.reload();
       });
 
+      function handleClick(event) {
+        const modal = document.querySelector('.modal');
+        const closeBtn = document.querySelector('.close');
+        modal.style.display = 'block';
+        closeBtn.addEventListener('click', () => {
+          modal.style.display = 'none';
+        });
+      }
+
       function populateList(collection = [], orderList) {
         orderList.innerHTML = collection
           .map((number, i) => {
@@ -274,6 +304,11 @@
           })
           .join('');
       }
+      // Open Config Window
+      document.addEventListener('DOMContentLoaded', () => {
+        const the_button = document.querySelector('.js-btn');
+        the_button.addEventListener('click', handleClick);
+      });
 
       addArray.addEventListener('click', function () {
         state.priorityArray.push(
